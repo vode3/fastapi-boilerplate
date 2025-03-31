@@ -1,0 +1,100 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+packages = ["src/app"]
+
+[project]
+name = "fastapi-boilerplace"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.115.12",
+    "orjson>=3.10.16",
+    "pydantic-settings>=2.8.1",
+]
+
+[dependency-groups]
+dev = [
+    "types-pyyaml>=6.0.12.20241230",
+    "pre-commit>=4.1.0",
+    "mypy>=1.13.0",
+    "ruff>=0.9.4",
+]
+test = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+]
+
+[project.scripts]
+app = "app.main:main"
+
+[tool.mypy]
+python_version = "3.13"
+follow_imports_for_stubs = true
+pretty = true
+show_absolute_path = true
+hide_error_codes = false
+show_error_context = true
+strict = true
+warn_unreachable = true
+warn_no_return = true
+cache_dir = ".mypy_cache"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+lint.select = [
+  "G",     # flake8-logging-format
+  "E",     # pycodestyle
+  "W",     # pycodestyle
+  "F",     # pyflakes
+  "UP",    # pyupgrade
+  "I",     # isort
+  "ASYNC", # flake8-async
+  "FIX",   # flake8-fixme
+  "PTH",   # flake8-use-pathlib
+  "ERA",   # eradicate
+  "RUF",   # Ruff-specific rules
+  "C90",   # McCabe complexity
+]
+lint.ignore = [
+    "C901",
+    "ERA001",
+]
+
+[tool.ruff.format]
+preview = true
+docstring-code-format = true
+docstring-code-line-length = 72
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+force-single-line = true
+
+[tool.ruff.lint.pyupgrade]
+keep-runtime-typing = true
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = [
+    "-v",
+    "--cov=src",
+    "--cov-report=term",
+    "--cov-report=xml",
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = ["tests/*"]
+
+[tool.coverage.report]
+omit = [
+    "**/__init__.py",
+]
+show_missing = true
