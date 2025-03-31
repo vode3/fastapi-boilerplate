@@ -33,7 +33,7 @@ jobs:
             uv-${{ runner.os }}
 
       - name: Install the project
-        run: uv sync --all-extras --dev
+        run: uv sync --group test
 
       - name: Lint with pre-commit
         run: uv run pre-commit run --all-files
